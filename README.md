@@ -37,4 +37,10 @@ The API is hosted at: `https://controltowerai.io`
 
 ---
 
-Reliability is no longer assumed. It is continuously evaluated.
+## Reliability is no longer assumed. It is continuously evaluated.
+
+---
+
+## Neomundi
+Runtime stability signals (ESI™) for AI systems
+Powered by Law E™ thermodynamic framework
