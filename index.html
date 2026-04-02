@@ -32,7 +32,7 @@
         textarea::placeholder { color: rgba(255,255,255,0.5); }
 
         .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-        .status-dot.ok { background: #00ff88; }Coherent response
+        .status-dot.ok { background: #00ff88; }
         .status-dot.ko { background: #333; }
         .status-dot.loading { background: #ffaa00; animation: blink 1s infinite; }
         @keyframes blink { 50% { opacity: 0.3; } }
@@ -72,7 +72,6 @@
         @keyframes computing-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .computing { animation: computing-pulse 1.1s ease-in-out infinite; color: #00d4ff !important; font-size: 18px !important; letter-spacing: 0.05em; }
 
-        /* MODIFICATION 1 — toggle label géré via JS (lbl-signals) */
         .signals-toggle { display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-top: 1px solid #1a2a4a; cursor: pointer; font-size: 10px; color: #ffffff; letter-spacing: 0.1em; text-transform: uppercase; user-select: none; transition: color 0.15s; }
         .signals-toggle:hover { color: #00d4ff; }
         .signals-toggle .arrow { transition: transform 0.2s; }
@@ -202,7 +201,6 @@
                     <div class="ss-compliance" id="stabCompliance">Traçabilité · EU AI Act Art. 13</div>
                 </div>
                 <div class="ss-item">
-                    <!-- MODIFICATION 2 — label "Status" EN / "Statut" FR -->
                     <div class="ss-label" id="lbl-status">Statut</div>
                     <div class="ss-val" id="stabStatus" style="font-size:20px;padding-top:6px;">—</div>
                 </div>
@@ -212,7 +210,6 @@
                 </div>
             </div>
 
-            <!-- MODIFICATION 3 — toggle label : "View analysis ↓" / "Voir analyse ↓" -->
             <div class="signals-toggle" id="signalsToggle">
                 <span class="arrow">↓</span>
                 <span id="lbl-signals">Voir analyse ↓</span>
@@ -225,7 +222,6 @@
                     <span class="obs-note" id="drift-note">Mode OBS actif : la réponse est observée, scorée et tracée — non bloquée. En mode GOV, ce signal déclencherait une action corrective automatique.</span>
                 </div>
 
-                <!-- MODIFICATION 4 — Jauges : noms + sous-titres EN/FR -->
                 <div class="gauge-row g-idle" id="gauge-coh">
                     <div class="gauge-name-block">
                         <div class="gauge-name" id="gauge-coh-name">Cohérence logique</div>
@@ -253,6 +249,8 @@
                     <span class="gauge-score" id="g-stab-val">—</span>
                     <span class="gauge-micro" id="g-stab-micro"></span>
                 </div>
+
+                <!-- ✅ CORRECTION 1 — Légende : 0 = instable / 1 = stable -->
                 <div class="gauges-legend">
                     <div class="leg"><div class="leg-dot" style="background:#00ff88"></div><span id="leg-stable">1 = stable</span></div>
                     <div class="leg"><div class="leg-dot" style="background:#ffaa00"></div><span id="leg-warn">signal</span></div>
@@ -260,8 +258,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- MODIFICATION 5 — Audit Trail supprimé -->
 
         <div class="info-row">
             <button class="info-btn" id="btn-example">Voir l'exemple</button>
@@ -325,11 +321,9 @@ var TRANSLATIONS = {
     'btn-dangerous': { fr: 'Question à risque',  en: 'Risky question' },
     'chatBtn':       { fr: 'Envoyer',            en: 'Send' },
     'lbl-score':     { fr: 'Stability Score',    en: 'Stability Score' },
-    /* MODIFICATION 2 — "Status" en EN */
     'lbl-status':    { fr: 'Statut',             en: 'Status' },
     'lbl-interp':    { fr: 'Interprétation',     en: 'Interpretation' },
-    /* MODIFICATION 3 — toggle label */
-    'lbl-signals':      { fr: 'Voir analyse ↓',                    en: 'View analysis ↓' },
+    'lbl-signals':      { fr: 'Voir analyse ↓', en: 'View analysis ↓' },
     'lbl-signals-hint': { fr: '', en: '' },
     'drift-title':    { fr: '⚠ Dérive sémantique détectée', en: '⚠ Semantic drift detected' },
     'drift-subtitle': { fr: 'signal local élevé sur cette réponse.', en: 'high local signal on this response.' },
@@ -337,16 +331,18 @@ var TRANSLATIONS = {
         fr: 'Mode OBS actif : la réponse est observée, scorée et tracée — non bloquée. En mode GOV, ce signal déclencherait une action corrective automatique.',
         en: 'OBS mode active: the response is observed, scored and logged — not blocked. In GOV mode, this signal would trigger an automatic corrective action.'
     },
-    /* MODIFICATION 4 — noms + sous-titres des jauges */
     'gauge-coh-name':   { fr: 'Cohérence logique',      en: 'Logical Consistency' },
     'gauge-coh-sub':    { fr: 'la logique interne tient-elle ?', en: 'does internal logic hold?' },
     'gauge-drift-name': { fr: 'Alignement thématique',  en: 'Topic Alignment' },
     'gauge-drift-sub':  { fr: 'le texte reste-t-il sur le sujet ?', en: 'does the text stay on topic?' },
     'gauge-stab-name':  { fr: 'Intégrité structurelle', en: 'Structural Integrity' },
     'gauge-stab-sub':   { fr: 'les affirmations se contredisent-elles ?', en: 'do statements contradict each other?' },
-    'leg-stable':  { fr: '0 = stable',    en: '0 = stable' },
+
+    /* ✅ CORRECTION 1 — Légende inversée : 0 = instable / 1 = stable */
+    'leg-stable':  { fr: '1 = stable',    en: '1 = stable' },
     'leg-warn':    { fr: 'signal faible', en: 'weak signal' },
-    'leg-danger':  { fr: '1 = instable',  en: '1 = unstable' },
+    'leg-danger':  { fr: '0 = instable',  en: '0 = unstable' },
+
     'obs-desc': { fr: 'observer &amp; scorer uniquement, sans blocage', en: 'observe &amp; score only, no blocking' },
     'gov-desc': { fr: 'action automatique sur l\'instabilité — disponible en pilote.', en: 'automatic action on instability — available in pilot.' },
     'bench-line': {
@@ -371,12 +367,13 @@ var INFO_TEXTS = {
         en: `EXAMPLE — REAL-TIME STABILITY\n\nStability Score: 0.72 — Status: SIGNAL\nThe response shows a measurable semantic drift.\nWithout governance, it reaches your user as-is.\n\nWith Neomundi — you see the instability before it goes to production.\nYou decide. Not the model.`
     },
     infoScore: {
-        fr: `QU'EST-CE QUE LE STABILITY SCORE ?\n\nLe Stability Score mesure la stabilité interne d'une réponse IA.\nPas la vérité du contenu — la cohérence de la structure.\n\n0 = stable · 1 = instable\n\nUne réponse peut être vraie et instable.\nUne réponse peut être fausse et stable.\n\nTrois signaux mesurés (analyse technique) :\n· Cohérence logique — la logique interne tient-elle ?\n· Alignement thématique — le texte reste-t-il sur le sujet ?\n· Intégrité structurelle — les affirmations se contredisent-elles ?\n\nChaque réponse reçoit un score.\nVous définissez le seuil. L'API observe ou agit.`,
-        en: `WHAT IS THE STABILITY SCORE?\n\nThe Stability Score measures the internal stability of an AI response.\nNot content truth — structural coherence.\n\n0 = stable · 1 = unstable\n\nA response can be true and unstable.\nA response can be false and stable.\n\nThree measured signals (technical analysis):\n· Logical Consistency — does internal logic hold?\n· Topic Alignment — does the text stay on topic?\n· Structural Integrity — do statements contradict each other?\n\nEvery response gets a score.\nYou set the threshold. The API observes or acts.`
+        /* ✅ CORRECTION 2 — infoScore : 0 = instable · 1 = stable (FR et EN) */
+        fr: `QU'EST-CE QUE LE STABILITY SCORE ?\n\nLe Stability Score mesure la stabilité interne d'une réponse IA.\nPas la vérité du contenu — la cohérence de la structure.\n\n0 = instable · 1 = stable\n\nUne réponse peut être vraie et instable.\nUne réponse peut être fausse et stable.\n\nTrois signaux mesurés (analyse technique) :\n· Cohérence logique — la logique interne tient-elle ?\n· Alignement thématique — le texte reste-t-il sur le sujet ?\n· Intégrité structurelle — les affirmations se contredisent-elles ?\n\nChaque réponse reçoit un score.\nVous définissez le seuil. L'API observe ou agit.`,
+        en: `WHAT IS THE STABILITY SCORE?\n\nThe Stability Score measures the internal stability of an AI response.\nNot content truth — structural coherence.\n\n0 = unstable · 1 = stable\n\nA response can be true and unstable.\nA response can be false and stable.\n\nThree measured signals (technical analysis):\n· Logical Consistency — does internal logic hold?\n· Topic Alignment — does the text stay on topic?\n· Structural Integrity — do statements contradict each other?\n\nEvery response gets a score.\nYou set the threshold. The API observes or acts.`
     },
     infoUsecase: {
-        fr: `CAS D'USAGE — LEGALTECH\n\nUn cabinet d'avocats utilise un LLM pour générer des résumés de contrats.\n\nSans gouvernance :\nles réponses vont directement aux clients — avec un risque de stabilité inconnu.\n\nEn mode OBS :\nchaque réponse est scorée avant livraison.\nScore > 0.6 — SIGNAL — transmis à un associé senior, non envoyé au client.\n\nEn mode GOV :\nles réponses instables sont automatiquement retenues ou réécrites.\nAucun changement dans le workflow client.\n\nRésultat :\n— risque sémantique contenu\n— responsabilité légale réduite\n— trace d'audit complète générée\n— conformité EU AI Act intégrée, pas ajoutée`,
-        en: `USE CASE — LEGALTECH\n\nA law firm uses an LLM to generate contract summaries.\n\nWithout governance:\nresponses go directly to clients — with unknown stability risk.\n\nIn OBS mode:\nevery response is scored before delivery.\nScore > 0.6 — SIGNAL — forwarded to senior partner, not sent to client.\n\nIn GOV mode:\nunstable responses are automatically held or rewritten.\nNo change to the client workflow.\n\nResult:\n— semantic risk contained\n— legal liability reduced\n— complete audit trail generated\n— EU AI Act compliance built in, not added`
+        fr: `CAS D'USAGE — LEGALTECH\n\nUn cabinet d'avocats utilise un LLM pour générer des résumés de contrats.\n\nSans gouvernance :\nles réponses vont directement aux clients — avec un risque de stabilité inconnu.\n\nEn mode OBS :\nchaque réponse est scorée avant livraison.\nScore < 0.4 — SIGNAL — transmis à un associé senior, non envoyé au client.\n\nEn mode GOV :\nles réponses instables sont automatiquement retenues ou réécrites.\nAucun changement dans le workflow client.\n\nRésultat :\n— risque sémantique contenu\n— responsabilité légale réduite\n— trace d'audit complète générée\n— conformité EU AI Act intégrée, pas ajoutée`,
+        en: `USE CASE — LEGALTECH\n\nA law firm uses an LLM to generate contract summaries.\n\nWithout governance:\nresponses go directly to clients — with unknown stability risk.\n\nIn OBS mode:\nevery response is scored before delivery.\nScore < 0.4 — SIGNAL — forwarded to senior partner, not sent to client.\n\nIn GOV mode:\nunstable responses are automatically held or rewritten.\nNo change to the client workflow.\n\nResult:\n— semantic risk contained\n— legal liability reduced\n— complete audit trail generated\n— EU AI Act compliance built in, not added`
     }
 };
 
@@ -482,7 +479,6 @@ function updateDriftAlert(driftScore) {
     }
 }
 
-/* MODIFICATION 2 + MODIFICATION (interp CRITICAL) */
 function setSummary(score) {
     var scoreEl  = document.getElementById('stabScore');
     var statusEl = document.getElementById('stabStatus');
