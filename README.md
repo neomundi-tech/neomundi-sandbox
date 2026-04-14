@@ -1,4 +1,4 @@
-# Law-E Sandbox — Runtime Stability for AI Systems
+# Neomundi. The AI thermometer.
 
 Interactive interface to test the Law-E thermodynamic governance API.
 
@@ -16,21 +16,6 @@ To request access:
 
 ---
 
-## Features
-
-### 1. Instant Governance
-Send LLM metrics and observe the decision: **ALLOW** (stable) or **FLAG** (instability detected).
-
-### 2. Hallucination Detection
-Test whether the API distinguishes a correct response from a hallucination:
-- Correct response → **ALLOW**
-- Incorrect response → **FLAG** (hallucination detected)
-
-### 3. Live Metrics
-Visualize live counters: requests, decisions, G-score, latency.
-
----
-
 ## API Endpoint
 
 The API is hosted at: `https://controltowerai.io`
@@ -41,4 +26,3 @@ The API is hosted at: `https://controltowerai.io`
 
 ---
 
-## Neomundi Runtime stability signals (ESI™) for AI systems Powered by Law E™ thermodynamic framework
