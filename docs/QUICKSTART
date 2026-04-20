@@ -8,6 +8,18 @@ Neomundi measures in real time whether an AI response is **stable** during gener
 - `stability_score` (0 → 1)
 - `decision` → `ALLOW` or `FLAG`
 
+#### Neomundi calls the LLM for you and returns both the response and the stability signal.
+
+---
+
+## 6. Get a test key
+
+You need:
+- a Neomundi key (`ct_live_xxx`)
+- your own LLM provider key (OpenAI, etc.)
+
+If you don't have a key, contact us or request a pilot access.
+
 ---
 
 ## 2. Test in 2 minutes
