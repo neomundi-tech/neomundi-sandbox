@@ -1,0 +1,76 @@
+# NEOMUNDI — PILOT QUICKSTART (2 min)
+
+## 1. What it does
+
+Neomundi measures in real time whether an AI response is **stable** during generation.
+
+**Simple output:**
+- `stability_score` (0 → 1)
+- `decision` → `ALLOW` or `FLAG`
+
+---
+
+## 2. Test in 2 minutes
+
+```python
+import requests, json
+
+NEOMUNDI_KEY = "ct_live_xxx"
+PROVIDER_KEY  = "sk-xxx"
+
+r = requests.post(
+    "https://api.neomundi.io/v1/govern/stream",
+    headers={"X-API-Key": NEOMUNDI_KEY},
+    json={
+        "prompt": "Explain this contract risk",
+        "model": "gpt-4o",
+        "provider_api_key": PROVIDER_KEY
+    },
+    stream=True
+)
+
+for line in r.iter_lines(decode_unicode=True):
+    if line.startswith("data: "):
+        data = json.loads(line[6:])
+        if "decision" in data:
+            print(data)
+```
+
+---
+
+## 3. How to integrate it (the key point)
+
+> 👉 Simply replace your LLM call with Neomundi:
+
+**Before:**
+```
+agent → LLM → response
+```
+
+**After:**
+```
+agent → Neomundi → (LLM + signal) → response
+```
+
+---
+
+## 4. Simple rule
+
+```python
+if decision == "FLAG":
+    # regenerate or block
+else:
+    # display response
+```
+
+---
+
+## 5. Concrete example
+
+```python
+def agent(prompt):
+    signal = govern(prompt)
+    if signal["decision"] == "FLAG":
+        return "Regenerating..."
+    return signal["response_text"]
+```
