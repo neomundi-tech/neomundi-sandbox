@@ -1,18 +1,28 @@
 # NEOMUNDI — 2 MIN QUICKSTART
 
+---
+
 ## 1. What it does
-Neomundi measures in real time whether an AI response 
-is stable during generation.
+
+Neomundi measures in real time whether an AI response is stable during generation.
 
 You send a prompt → you get:
 - `stability_score` (0 → 1)
-- `decision` → ALLOW or FLAG
+- `decision` → `ALLOW` or `FLAG`
+
+---
 
 ## 2. Mental model
+
+```
 agent → Neomundi → (LLM + signal) → response
+```
+
+---
 
 ## 3. Test in 2 minutes
 
+```python
 import requests, json
 
 NEOMUNDI_KEY = "ct_live_xxx"
@@ -34,12 +44,37 @@ for line in r.iter_lines(decode_unicode=True):
         data = json.loads(line[6:])
         if "decision" in data:
             print(data)
+```
+
+---
 
 ## 4. Simple rule
+
+```python
 if decision == "FLAG":
     # block or regenerate
 else:
     # display response
+```
 
-## 5. Get a key
-→ controltower.neomundi.io
+---
+
+## 5. Concrete example
+
+```python
+def agent(prompt):
+    signal = govern(prompt)
+    if signal["decision"] == "FLAG":
+        return "Regenerating..."
+    return signal["response_text"]
+```
+
+---
+
+## 6. Get a key
+
+You need:
+- a Neomundi key (`ct_live_xxx`)
+- your own LLM provider key (OpenAI, Mistral, etc.)
+
+→ [controltower.neomundi.io](https://controltower.neomundi.io)
